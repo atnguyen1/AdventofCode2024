@@ -82,7 +82,6 @@ for entry in data2:
 print('Part 1:', sum_correct)
 
 
-
 sum_correct2 = 0
 for entry in data2:
 	total = entry[0]
@@ -107,46 +106,46 @@ for entry in data2:
 			s.append(elements[z])
 		eval_list.append(s)
 
-	# Do Combines
-	combined_eval_list = []
-	for e in eval_list:
-		#print(e)
-		combine_index = []
-
-		d = e.copy()
-		if '|' in d:				
-			while '|' in d:
-				z = d.index('|')
-				first = d[z - 1]
-				second = d[z + 1]
-				comb = first + second
-
-				first_half = d[:z - 1]
-				second_half = d[z + 2:]
-				new_d = first_half + [comb] + second_half
-				d = new_d
-		combined_eval_list.append(d)		
-
 	results = []
-	for e in combined_eval_list:
+	for e in eval_list:
 		d = e.copy()
 
-		if len(d) > 1:
-			first = str(d.pop(0))
+		first = str(d.pop(0))
 
-			for c in divide_chunks(d, 2):
-				exp = first + ' ' + ' '.join([str(x) for x in c])
-				k = eval(exp)
-				first = str(k)
+		if '|' in d:
+
+			while '|' in d:
+				d2 = deque(e)
+				first = d2.popleft()
+				second = d2.popleft()
+				third = d2.popleft()
+
+
+
+				for c in divide_chunks(d, 2):
+					exp = first + ' ' + ' '.join([str(x) for x in c])
+					if '|' in exp:
+
+
+
+					else:
+						k = eval(exp)
+						first = str(k)
+
 			print(e, first)
+
 			if int(first) == total:
 				results.append(first)
 				break
 		else:
-			print(d)
-			if int(d[0]) == total:
-				results.append(d[0])
+			for c in divide_chunks(d, 2):
+				exp = first + ' ' + ' '.join([str(x) for x in c])
+				k = eval(exp)
+				first = str(k)
+			if int(first) == total:
+				results.append(first)
 				break
+
 
 	if str(total) in results:
 		sum_correct2 += total

@@ -73,6 +73,7 @@ class playermap:
 			field[new_y, new_x] = self.direction
 			self.x = new_x
 			self.y = new_y
+			self.visted.append((self.y, self.x, self.direction))
 			return 0
 
 	def move_to_rock(self):
